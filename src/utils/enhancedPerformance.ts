@@ -65,7 +65,7 @@ class EnhancedPerformanceMonitor {
   private resourceObserver?: PerformanceObserver;
   private navigationObserver?: PerformanceObserver;
   private isEnabled: boolean;
-  private reportingInterval?: NodeJS.Timeout;
+  private reportingInterval?: ReturnType<typeof setTimeout>;
 
   // Performance thresholds - these help us categorize performance
   private readonly PERFORMANCE_THRESHOLDS = {
@@ -525,7 +525,7 @@ class EnhancedPerformanceMonitor {
 
 // Create enhanced global instance
 export const enhancedPerf = new EnhancedPerformanceMonitor(
-  process.env.NODE_ENV === "development",
+  import.meta.env.DEV,
 );
 
 // Initialize web vitals tracking
@@ -569,7 +569,7 @@ export class PerformanceOptimizer {
     func: T,
     wait: number,
   ): (...args: Parameters<T>) => void {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     return (...args: Parameters<T>) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func(...args), wait);

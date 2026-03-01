@@ -38,7 +38,7 @@ const LazyLoadUserList = ({ onUserClick }: LazyLoadUserListProps) => {
   // Search state
   const [searchTerm, setSearchTerm] = useState("");
   const [searchDebounceTimer, setSearchDebounceTimer] =
-    useState<NodeJS.Timeout | null>(null);
+    useState<ReturnType<typeof setTimeout> | null>(null);
 
   // handle search with debouncing to avoid too many API calls
   const handleSearchChange = useCallback(

@@ -69,8 +69,8 @@ class AnalyticsService {
     // Only enable analytics in production or when explicitly requested
     // This ensures we don't pollute development with unnecessary data
     this.isEnabled =
-      process.env.NODE_ENV === "production" ||
-      process.env.VITE_ENABLE_ANALYTICS === "true" ||
+      import.meta.env.PROD ||
+      import.meta.env.VITE_ENABLE_ANALYTICS === "true" ||
       import.meta.env?.VITE_TEST_ANALYTICS === "true";
 
     this.sessionStartTime = Date.now();
@@ -120,7 +120,7 @@ class AnalyticsService {
     this.activityQueue.push(activity);
 
     // Log for development
-    if (process.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
       console.log(`📊 Activity: ${action}`, metadata);
     }
 
@@ -318,7 +318,7 @@ class AnalyticsService {
         );
       }
 
-      if (process.env.NODE_ENV === "development") {
+      if (import.meta.env.DEV) {
         console.log(
           `📊 Flushed ${activities.length} activities and ${performances.length} performance metrics`,
         );

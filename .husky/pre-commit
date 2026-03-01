@@ -1,8 +1,19 @@
-# Run lint-staged for code quality checks
+# ── 1. Lint & format staged files (ESLint + Prettier) ────────────────────────
 npx lint-staged
 
-# Run type checking
-npm run typecheck
+# ── 2. TypeScript type check ──────────────────────────────────────────────────
+# Full-project check — TS must resolve all imports, not just staged files.
+echo "▶ TypeScript type check..."
+npx tsc --noEmit -p tsconfig.app.json && npx tsc --noEmit -p tsconfig.node.json
 
-# Run tests if they exist and are quick
-# npm run test:unit 2>/dev/null || true
+# ── 3. Vitest unit tests for staged source files ──────────────────────────────
+# vitest related <files> runs only test suites that import the changed sources.
+# Slow/integration tests are already excluded in vitest.config.ts.
+# --bail=1            stop on first failure
+# --passWithNoTests   succeed quietly when no related tests are found
+STAGED_SRC=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'src/.*\.(ts|tsx)$' | tr '\n' ' ')
+if [ -n "$STAGED_SRC" ]; then
+  echo "▶ Running related Vitest tests..."
+  # shellcheck disable=SC2086
+  npx vitest related --run --bail=1 --passWithNoTests $STAGED_SRC
+fi

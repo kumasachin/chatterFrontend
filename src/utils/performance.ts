@@ -92,7 +92,7 @@ class PerformanceMonitor {
 
 // Create global instance
 export const perf = new PerformanceMonitor(
-  process.env.NODE_ENV === "development",
+  import.meta.env.DEV,
 );
 
 // Helper function for timing async operations
