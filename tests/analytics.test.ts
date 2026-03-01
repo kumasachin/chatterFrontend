@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
 import { analytics, useAnalytics } from "../src/utils/analytics";
 
 // Mock axios
@@ -102,11 +103,11 @@ describe("Analytics Service", () => {
       expect(sessionAnalytics).toHaveProperty("sessionStart");
       expect(sessionAnalytics).toHaveProperty(
         "currentUrl",
-        "http://localhost:3000/test"
+        "http://localhost:3000/test",
       );
       expect(sessionAnalytics).toHaveProperty(
         "userAgent",
-        "Mozilla/5.0 (test)"
+        "Mozilla/5.0 (test)",
       );
       expect(sessionAnalytics).toHaveProperty("language", "en-US");
       expect(sessionAnalytics).toHaveProperty("platform", "MacIntel");
@@ -121,7 +122,7 @@ describe("Analytics Service", () => {
 
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.stringContaining("Activity: test-action"),
-        expect.objectContaining({ key: "value" })
+        expect.objectContaining({ key: "value" }),
       );
 
       consoleSpy.mockRestore();
@@ -134,7 +135,7 @@ describe("Analytics Service", () => {
 
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.stringContaining("Activity: auth-login"),
-        expect.objectContaining({ userId: "123" })
+        expect.objectContaining({ userId: "123" }),
       );
 
       consoleSpy.mockRestore();
@@ -150,7 +151,7 @@ describe("Analytics Service", () => {
         expect.objectContaining({
           feature: "chat-interface",
           chatId: "abc123",
-        })
+        }),
       );
 
       consoleSpy.mockRestore();
@@ -169,7 +170,7 @@ describe("Analytics Service", () => {
         expect.objectContaining({
           messageId: "msg123",
           receiverId: "user456",
-        })
+        }),
       );
 
       consoleSpy.mockRestore();
@@ -188,7 +189,7 @@ describe("Analytics Service", () => {
         expect.objectContaining({
           query: "What is Chatter?",
           botId: "chatterbot",
-        })
+        }),
       );
 
       consoleSpy.mockRestore();
@@ -212,8 +213,8 @@ describe("Analytics Service", () => {
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
         expect.stringContaining(
-          "Slow operation detected: slow-operation (2500ms)"
-        )
+          "Slow operation detected: slow-operation (2500ms)",
+        ),
       );
 
       consoleWarnSpy.mockRestore();
@@ -232,7 +233,7 @@ describe("Analytics Service", () => {
         expect.objectContaining({
           message: "Test error message",
           context: "test-context",
-        })
+        }),
       );
 
       consoleSpy.mockRestore();
@@ -272,7 +273,7 @@ describe("Analytics Service", () => {
       const laterAnalytics = analytics.getSessionAnalytics();
 
       expect(laterAnalytics.sessionDuration).toBeGreaterThanOrEqual(
-        initialAnalytics.sessionDuration + 30000
+        initialAnalytics.sessionDuration + 30000,
       );
     });
   });
@@ -347,7 +348,7 @@ describe("Analytics Service", () => {
           userAgent: "Mozilla/5.0 (test)",
           timestamp: expect.any(String),
           sessionDuration: expect.any(Number),
-        })
+        }),
       );
 
       consoleSpy.mockRestore();
@@ -362,7 +363,7 @@ describe("Analytics Service", () => {
       const metadata = lastCall[1];
 
       expect(metadata.timestamp).toMatch(
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/,
       );
 
       consoleSpy.mockRestore();
@@ -402,7 +403,7 @@ describe("Analytics Service", () => {
           chatId: "chat123",
           messageLength: 45,
           hasAttachments: false,
-        })
+        }),
       );
 
       consoleSpy.mockRestore();

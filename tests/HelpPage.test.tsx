@@ -1,7 +1,8 @@
-import React from "react";
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import { describe, it, expect, beforeEach, vi } from "vitest";
+
 import HelpPage from "../src/pages/HelpPage";
 
 // Mock react-router-dom Link component
@@ -29,7 +30,7 @@ const renderHelpPage = () => {
   return render(
     <BrowserRouter>
       <HelpPage />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 
@@ -44,7 +45,7 @@ describe("HelpPage Component", () => {
 
       expect(screen.getByText("Chatter Help Center")).toBeInTheDocument();
       expect(
-        screen.getByText("Everything you need to know about using Chatter")
+        screen.getByText("Everything you need to know about using Chatter"),
       ).toBeInTheDocument();
     });
 
@@ -109,7 +110,7 @@ describe("HelpPage Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Built with Modern Tech 🛠️")
+          screen.getByText("Built with Modern Tech 🛠️"),
         ).toBeInTheDocument();
         expect(screen.getByText("Frontend Technologies")).toBeInTheDocument();
         expect(screen.getByText("Backend Technologies")).toBeInTheDocument();
@@ -124,10 +125,10 @@ describe("HelpPage Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Common Issues & Solutions 🔧")
+          screen.getByText("Common Issues & Solutions 🔧"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("Can't receive verification email?")
+          screen.getByText("Can't receive verification email?"),
         ).toBeInTheDocument();
       });
     });
@@ -164,15 +165,15 @@ describe("HelpPage Component", () => {
 
       expect(screen.getByText("Quick Start Guide")).toBeInTheDocument();
       expect(
-        screen.getByText("Create your account with a unique username")
+        screen.getByText("Create your account with a unique username"),
       ).toBeInTheDocument();
       expect(
         screen.getByText(
-          "Verify your email address (check spam folder if needed)"
-        )
+          "Verify your email address (check spam folder if needed)",
+        ),
       ).toBeInTheDocument();
       expect(
-        screen.getByText("Start chatting with ChatterBot - your AI friend!")
+        screen.getByText("Start chatting with ChatterBot - your AI friend!"),
       ).toBeInTheDocument();
       expect(screen.getByText("Try Guest Mode")).toBeInTheDocument();
     });
@@ -189,10 +190,10 @@ describe("HelpPage Component", () => {
         expect(screen.getByText("Smart Notifications")).toBeInTheDocument();
         expect(screen.getByText("Friend System")).toBeInTheDocument();
         expect(
-          screen.getByText("Multiple chat windows support")
+          screen.getByText("Multiple chat windows support"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("Email verification system")
+          screen.getByText("Email verification system"),
         ).toBeInTheDocument();
       });
     });
@@ -230,19 +231,19 @@ describe("HelpPage Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Can't receive verification email?")
+          screen.getByText("Can't receive verification email?"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("Check your spam/junk folder")
+          screen.getByText("Check your spam/junk folder"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("Messages not appearing in real-time?")
+          screen.getByText("Messages not appearing in real-time?"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("ChatterBot not responding?")
+          screen.getByText("ChatterBot not responding?"),
         ).toBeInTheDocument();
         expect(
-          screen.getByText("Not receiving notifications?")
+          screen.getByText("Not receiving notifications?"),
         ).toBeInTheDocument();
       });
     });
@@ -260,7 +261,7 @@ describe("HelpPage Component", () => {
         expect(screen.getByText("Sachin Kumar")).toBeInTheDocument();
         expect(screen.getByText("full-stack developer")).toBeInTheDocument();
         expect(
-          screen.getByText("innovative web applications")
+          screen.getByText("innovative web applications"),
         ).toBeInTheDocument();
 
         // Professional tags
@@ -282,7 +283,7 @@ describe("HelpPage Component", () => {
         const emailLink = screen.getByText("sachin@chatter.dev");
         expect(emailLink.closest("a")).toHaveAttribute(
           "href",
-          "mailto:sachin@chatter.dev"
+          "mailto:sachin@chatter.dev",
         );
       });
     });
@@ -323,7 +324,7 @@ describe("HelpPage Component", () => {
         // Should showcase skills without being boastful
         expect(screen.getByText("crafted with passion")).toBeInTheDocument();
         expect(
-          screen.getByText("modern development practices")
+          screen.getByText("modern development practices"),
         ).toBeInTheDocument();
         expect(screen.getByText("AI integration")).toBeInTheDocument();
         expect(screen.getByText("user-centric design")).toBeInTheDocument();
@@ -338,12 +339,12 @@ describe("HelpPage Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("carefully chosen for performance")
+          screen.getByText("carefully chosen for performance"),
         ).toBeInTheDocument();
         expect(screen.getByText("scalability")).toBeInTheDocument();
         expect(screen.getByText("developer experience")).toBeInTheDocument();
         expect(
-          screen.getByText("modern web development best practices")
+          screen.getByText("modern web development best practices"),
         ).toBeInTheDocument();
       });
     });
@@ -353,7 +354,7 @@ describe("HelpPage Component", () => {
 
       // Check for professional language markers
       expect(
-        screen.getByText("Everything you need to know")
+        screen.getByText("Everything you need to know"),
       ).toBeInTheDocument();
 
       // Should not contain overly casual language

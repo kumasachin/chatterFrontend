@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
 import HelpPage from "../src/pages/HelpPage";
 
 // Mock lucide-react icons
@@ -21,7 +22,7 @@ const renderHelpPage = () => {
   return render(
     <BrowserRouter>
       <HelpPage />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 
@@ -45,7 +46,7 @@ describe("HelpPage Component", () => {
       expect(screen.getByText("👨‍💻 About the Developer")).toBeInTheDocument();
       expect(screen.getByText(/Sachin Kumar/)).toBeInTheDocument();
       expect(
-        screen.getByText(/passionate full-stack developer/)
+        screen.getByText(/passionate full-stack developer/),
       ).toBeInTheDocument();
     });
 
@@ -85,7 +86,7 @@ describe("HelpPage Component", () => {
       const githubLink = screen.getByRole("link", { name: /GitHub/ });
       expect(githubLink).toHaveAttribute(
         "href",
-        "https://github.com/kumasachin"
+        "https://github.com/kumasachin",
       );
       expect(githubLink).toHaveAttribute("target", "_blank");
       expect(githubLink).toHaveAttribute("rel", "noopener noreferrer");
@@ -96,7 +97,7 @@ describe("HelpPage Component", () => {
       const linkedinLink = screen.getByRole("link", { name: /LinkedIn/ });
       expect(linkedinLink).toHaveAttribute(
         "href",
-        "https://linkedin.com/in/sachin-kumar-dev"
+        "https://linkedin.com/in/sachin-kumar-dev",
       );
       expect(linkedinLink).toHaveAttribute("target", "_blank");
     });
@@ -113,12 +114,12 @@ describe("HelpPage Component", () => {
     it("displays frontend technologies correctly", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/React 19.1.0 with TypeScript/)
+        screen.getByText(/React 19.1.0 with TypeScript/),
       ).toBeInTheDocument();
       expect(screen.getByText(/Vite for fast development/)).toBeInTheDocument();
       expect(screen.getByText(/Tailwind CSS for styling/)).toBeInTheDocument();
       expect(
-        screen.getByText(/Zustand for state management/)
+        screen.getByText(/Zustand for state management/),
       ).toBeInTheDocument();
     });
 
@@ -127,7 +128,7 @@ describe("HelpPage Component", () => {
       expect(screen.getByText(/Node.js with Express.js/)).toBeInTheDocument();
       expect(screen.getByText(/MongoDB with Mongoose ODM/)).toBeInTheDocument();
       expect(
-        screen.getByText(/Socket.IO for real-time communication/)
+        screen.getByText(/Socket.IO for real-time communication/),
       ).toBeInTheDocument();
       expect(screen.getByText(/JWT for authentication/)).toBeInTheDocument();
     });
@@ -144,7 +145,7 @@ describe("HelpPage Component", () => {
     it("describes real-time messaging feature", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Instant messaging with Socket.IO/)
+        screen.getByText(/Instant messaging with Socket.IO/),
       ).toBeInTheDocument();
     });
 
@@ -156,14 +157,14 @@ describe("HelpPage Component", () => {
     it("describes AI chat assistant feature", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Google Gemini AI integration/)
+        screen.getByText(/Google Gemini AI integration/),
       ).toBeInTheDocument();
     });
 
     it("describes modern tech stack feature", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/React 19, TypeScript, Node.js/)
+        screen.getByText(/React 19, TypeScript, Node.js/),
       ).toBeInTheDocument();
     });
   });
@@ -178,7 +179,7 @@ describe("HelpPage Component", () => {
     it("shows step-by-step instructions", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Create an account using the signup form/)
+        screen.getByText(/Create an account using the signup form/),
       ).toBeInTheDocument();
       expect(screen.getByText(/Complete your profile/)).toBeInTheDocument();
       expect(screen.getByText(/Send friend requests/)).toBeInTheDocument();
@@ -188,7 +189,7 @@ describe("HelpPage Component", () => {
       renderHelpPage();
       expect(screen.getByText("AI Assistant Features")).toBeInTheDocument();
       expect(
-        screen.getByText(/Ask ChatterBot about Chatter platform/)
+        screen.getByText(/Ask ChatterBot about Chatter platform/),
       ).toBeInTheDocument();
     });
   });
@@ -204,20 +205,20 @@ describe("HelpPage Component", () => {
     it("lists technical goals correctly", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Demonstrate modern React development/)
+        screen.getByText(/Demonstrate modern React development/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/Showcase real-time communication skills/)
+        screen.getByText(/Showcase real-time communication skills/),
       ).toBeInTheDocument();
     });
 
     it("lists business goals correctly", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Create engaging user experiences/)
+        screen.getByText(/Create engaging user experiences/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/Build production-ready applications/)
+        screen.getByText(/Build production-ready applications/),
       ).toBeInTheDocument();
     });
   });
@@ -239,13 +240,13 @@ describe("HelpPage Component", () => {
     it("provides helpful descriptions for each support category", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/Found a bug? Please report it via email/)
+        screen.getByText(/Found a bug? Please report it via email/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/Have ideas for new features?/)
+        screen.getByText(/Have ideas for new features?/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/Interested in working together?/)
+        screen.getByText(/Interested in working together?/),
       ).toBeInTheDocument();
     });
   });
@@ -255,7 +256,7 @@ describe("HelpPage Component", () => {
       renderHelpPage();
       expect(screen.getByText("🎯 Specializations")).toBeInTheDocument();
       expect(
-        screen.getByText(/React & TypeScript Development/)
+        screen.getByText(/React & TypeScript Development/),
       ).toBeInTheDocument();
       expect(screen.getByText(/Node.js & Express.js APIs/)).toBeInTheDocument();
       expect(screen.getByText(/Real-time Applications/)).toBeInTheDocument();
@@ -271,7 +272,7 @@ describe("HelpPage Component", () => {
       renderHelpPage();
       expect(screen.getByText(/AI Integration & Chatbots/)).toBeInTheDocument();
       expect(
-        screen.getByText(/Database Design & Optimization/)
+        screen.getByText(/Database Design & Optimization/),
       ).toBeInTheDocument();
       expect(screen.getByText(/DevOps & Cloud Deployment/)).toBeInTheDocument();
     });
@@ -307,7 +308,7 @@ describe("HelpPage Component", () => {
     it("demonstrates technical expertise through detailed descriptions", () => {
       renderHelpPage();
       const techContent = screen.getByText(
-        /Socket.IO for real-time communication/
+        /Socket.IO for real-time communication/,
       );
       expect(techContent).toBeInTheDocument();
     });
@@ -323,10 +324,10 @@ describe("HelpPage Component", () => {
     it("provides comprehensive contact and collaboration information", () => {
       renderHelpPage();
       expect(
-        screen.getByText(/always excited to hear from users/)
+        screen.getByText(/always excited to hear from users/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(/discuss potential collaborations/)
+        screen.getByText(/discuss potential collaborations/),
       ).toBeInTheDocument();
     });
   });

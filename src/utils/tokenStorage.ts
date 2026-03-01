@@ -1,6 +1,7 @@
 // Token storage utility that works in both normal and private windows
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class TokenStorage {
-  private static readonly TOKEN_KEY = 'auth_token';
+  private static readonly TOKEN_KEY = "auth_token";
 
   static setToken(token: string): void {
     try {

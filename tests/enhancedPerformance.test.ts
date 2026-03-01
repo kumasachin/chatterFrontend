@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
 import {
   enhancedPerf,
   timeAsync,
@@ -66,10 +68,10 @@ describe("Enhanced Performance Monitor", () => {
 
       expect(duration).toBe(100);
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Started: test-operation")
+        expect.stringContaining("Started: test-operation"),
       );
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining("test-operation: 100.00ms")
+        expect.stringContaining("test-operation: 100.00ms"),
       );
 
       consoleSpy.mockRestore();
@@ -84,7 +86,7 @@ describe("Enhanced Performance Monitor", () => {
 
       expect(duration).toBe(null);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("No marker found for: non-existent-marker")
+        expect.stringContaining("No marker found for: non-existent-marker"),
       );
 
       consoleWarnSpy.mockRestore();
@@ -160,7 +162,7 @@ describe("Enhanced Performance Monitor", () => {
 
       expect(hasMemoryLeak).toBe(true);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Potential memory leak detected!")
+        expect.stringContaining("Potential memory leak detected!"),
       );
 
       consoleWarnSpy.mockRestore();
@@ -182,7 +184,7 @@ describe("Enhanced Performance Monitor", () => {
       enhancedPerf.end("slow-auth");
 
       expect(consoleGroupSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Optimization Suggestions")
+        expect.stringContaining("Optimization Suggestions"),
       );
 
       consoleSpy.mockRestore();
@@ -237,7 +239,7 @@ describe("Enhanced Performance Monitor", () => {
       const report = enhancedPerf.generateReport();
 
       expect(report.recommendations).toContain(
-        "Found 1 operations taking >1s. Consider optimization."
+        "Found 1 operations taking >1s. Consider optimization.",
       );
     });
   });
@@ -259,7 +261,7 @@ describe("Enhanced Performance Monitor", () => {
 
       expect(result).toBe("result");
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Started: async-test")
+        expect.stringContaining("Started: async-test"),
       );
 
       consoleSpy.mockRestore();
@@ -279,7 +281,7 @@ describe("Enhanced Performance Monitor", () => {
 
       expect(result).toBe("sync-result");
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Started: sync-test")
+        expect.stringContaining("Started: sync-test"),
       );
 
       consoleSpy.mockRestore();
@@ -354,7 +356,7 @@ describe("Enhanced Performance Monitor", () => {
 
       vi.stubGlobal(
         "Image",
-        vi.fn(() => mockImage)
+        vi.fn(() => mockImage),
       );
 
       const preloadPromise =

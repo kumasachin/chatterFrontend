@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi } from "vitest";
 
 // Simple performance test
@@ -98,7 +99,7 @@ describe("Enhanced Performance Monitor - Essential Tests", () => {
     expect(mockReport.markers).toHaveLength(1);
     expect(mockReport.markers[0].duration).toBe(150);
     expect(mockReport.recommendations).toContain(
-      "Consider optimization for slow operations"
+      "Consider optimization for slow operations",
     );
   });
 });

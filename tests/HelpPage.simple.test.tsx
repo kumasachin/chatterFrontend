@@ -1,7 +1,7 @@
-import React from "react";
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import { describe, it, expect } from "vitest";
 
 // Mock the HelpPage component since it has dynamic imports
 const MockHelpPage = () => (
@@ -18,7 +18,7 @@ const renderHelpPage = () => {
   return render(
     <BrowserRouter>
       <MockHelpPage />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 

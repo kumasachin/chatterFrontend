@@ -1,6 +1,7 @@
 // Enhanced Performance Monitoring and Optimization System
 // This is our performance detective - it watches everything and helps us make Chatter faster
 // Built with love for smooth user experiences ⚡
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 
 import React from "react";
 
@@ -153,14 +154,14 @@ class EnhancedPerformanceMonitor {
     // Log slow resources (>1s)
     if (entry.duration > 1000) {
       console.warn(
-        `🐌 Slow resource: ${entry.name} (${entry.duration.toFixed(2)}ms)`
+        `🐌 Slow resource: ${entry.name} (${entry.duration.toFixed(2)}ms)`,
       );
     }
 
     // Log large resources (>1MB)
     if (size > 1024 * 1024) {
       console.warn(
-        `📦 Large resource: ${entry.name} (${(size / 1024 / 1024).toFixed(2)}MB)`
+        `📦 Large resource: ${entry.name} (${(size / 1024 / 1024).toFixed(2)}MB)`,
       );
     }
   }
@@ -195,7 +196,7 @@ class EnhancedPerformanceMonitor {
   start(
     name: string,
     category = "general",
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): void {
     if (!this.isEnabled) return;
 
@@ -208,7 +209,7 @@ class EnhancedPerformanceMonitor {
 
     const emoji = this.getCategoryEmoji(category);
     console.log(
-      `${emoji} [Performance] Started: ${name}${category !== "general" ? ` (${category})` : ""}`
+      `${emoji} [Performance] Started: ${name}${category !== "general" ? ` (${category})` : ""}`,
     );
   }
 
@@ -231,7 +232,7 @@ class EnhancedPerformanceMonitor {
     const color = this.getDurationColor(duration);
     const emoji = this.getCategoryEmoji(marker.category || "general");
     console.log(
-      `${color} [Performance] ${emoji} ${name}: ${duration.toFixed(2)}ms`
+      `${color} [Performance] ${emoji} ${name}: ${duration.toFixed(2)}ms`,
     );
 
     // Provide optimization suggestions
@@ -301,7 +302,7 @@ class EnhancedPerformanceMonitor {
       if (categorySuggestions) {
         console.group(`💡 Optimization Suggestions for ${marker.name}`);
         categorySuggestions.forEach((suggestion) =>
-          console.log(`• ${suggestion}`)
+          console.log(`• ${suggestion}`),
         );
         console.groupEnd();
       }
@@ -365,7 +366,7 @@ class EnhancedPerformanceMonitor {
       const entries = list.getEntries();
       entries.forEach((entry: any) => {
         console.log(
-          `⚡ First Input Delay: ${entry.processingStart - entry.startTime}ms`
+          `⚡ First Input Delay: ${entry.processingStart - entry.startTime}ms`,
         );
       });
     });
@@ -390,7 +391,7 @@ class EnhancedPerformanceMonitor {
   // Enhanced reporting
   generateReport(): PerformanceReport {
     const markers = Array.from(this.markers.values()).filter(
-      (m) => m.duration !== undefined
+      (m) => m.duration !== undefined,
     );
     const memoryUsage = [...this.memorySnapshots];
 
@@ -401,7 +402,7 @@ class EnhancedPerformanceMonitor {
     const slowMarkers = markers.filter((m) => m.duration! > 1000);
     if (slowMarkers.length > 0) {
       recommendations.push(
-        `Found ${slowMarkers.length} operations taking >1s. Consider optimization.`
+        `Found ${slowMarkers.length} operations taking >1s. Consider optimization.`,
       );
     }
 
@@ -409,14 +410,14 @@ class EnhancedPerformanceMonitor {
     const currentMemory = this.getMemoryUsage();
     if (currentMemory && currentMemory.usedJSHeapSize > 50 * 1024 * 1024) {
       recommendations.push(
-        "High memory usage detected. Consider memory optimization."
+        "High memory usage detected. Consider memory optimization.",
       );
     }
 
     // Check for memory leaks
     if (this.detectMemoryLeaks()) {
       recommendations.push(
-        "Potential memory leak detected. Review component cleanup."
+        "Potential memory leak detected. Review component cleanup.",
       );
     }
 
@@ -447,19 +448,19 @@ class EnhancedPerformanceMonitor {
         acc[category].push(marker);
         return acc;
       },
-      {} as Record<string, PerformanceMarker[]>
+      {} as Record<string, PerformanceMarker[]>,
     );
 
     Object.entries(categorized).forEach(([category, markers]) => {
       console.group(
-        `${this.getCategoryEmoji(category)} ${category.toUpperCase()}`
+        `${this.getCategoryEmoji(category)} ${category.toUpperCase()}`,
       );
       markers
         .sort((a, b) => (b.duration || 0) - (a.duration || 0))
         .forEach((marker) => {
           const color = this.getDurationColor(marker.duration || 0);
           console.log(
-            `${color} ${marker.name}: ${marker.duration?.toFixed(2)}ms`
+            `${color} ${marker.name}: ${marker.duration?.toFixed(2)}ms`,
           );
         });
       console.groupEnd();
@@ -470,13 +471,13 @@ class EnhancedPerformanceMonitor {
     if (currentMemory) {
       console.group("💾 Memory Usage");
       console.log(
-        `Used: ${(currentMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`
+        `Used: ${(currentMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
       );
       console.log(
-        `Total: ${(currentMemory.totalJSHeapSize / 1024 / 1024).toFixed(2)}MB`
+        `Total: ${(currentMemory.totalJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
       );
       console.log(
-        `Limit: ${(currentMemory.jsHeapSizeLimit / 1024 / 1024).toFixed(2)}MB`
+        `Limit: ${(currentMemory.jsHeapSizeLimit / 1024 / 1024).toFixed(2)}MB`,
       );
       console.groupEnd();
     }
@@ -524,7 +525,7 @@ class EnhancedPerformanceMonitor {
 
 // Create enhanced global instance
 export const enhancedPerf = new EnhancedPerformanceMonitor(
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "development",
 );
 
 // Initialize web vitals tracking
@@ -536,7 +537,7 @@ if (typeof window !== "undefined") {
 export const timeAsync = async <T>(
   name: string,
   fn: () => Promise<T>,
-  category = "general"
+  category = "general",
 ): Promise<T> => {
   enhancedPerf.start(name, category);
   try {
@@ -549,7 +550,7 @@ export const timeAsync = async <T>(
 export const timeSync = <T>(
   name: string,
   fn: () => T,
-  category = "general"
+  category = "general",
 ): T => {
   enhancedPerf.start(name, category);
   try {
@@ -566,7 +567,7 @@ export const perf = enhancedPerf;
 export class PerformanceOptimizer {
   static debounce<T extends (...args: any[]) => any>(
     func: T,
-    wait: number
+    wait: number,
   ): (...args: Parameters<T>) => void {
     let timeout: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
@@ -577,7 +578,7 @@ export class PerformanceOptimizer {
 
   static throttle<T extends (...args: any[]) => any>(
     func: T,
-    limit: number
+    limit: number,
   ): (...args: Parameters<T>) => void {
     let inThrottle: boolean;
     return (...args: Parameters<T>) => {
@@ -620,7 +621,7 @@ export class PerformanceOptimizer {
   }
 
   static measureRenderTime(
-    componentName: string
+    componentName: string,
   ): (WrappedComponent: React.ComponentType<any>) => React.ComponentType<any> {
     return (WrappedComponent) => {
       return (props) => {

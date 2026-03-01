@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 import { create } from "zustand";
@@ -13,17 +14,17 @@ import type {
   UpdateUserInfoData,
 } from "../types/auth";
 import type { Notification } from "../types/notifications";
+import { enhancedPerf as perf, timeAsync } from "../utils/enhancedPerformance";
 import {
   clearUserSession,
   isUserLoggedOut,
   setLogoutFlag,
 } from "../utils/sessionCleanup";
 import { TokenStorage } from "../utils/tokenStorage";
-
-import useChatStore from "./messages.store";
-import { useChatWindowsStore } from "./chatWindows.store";
 import { visibilityManager } from "../utils/visibilityManager";
-import { enhancedPerf as perf, timeAsync } from "../utils/enhancedPerformance";
+
+import { useChatWindowsStore } from "./chatWindows.store";
+import useChatStore from "./messages.store";
 
 // extend the base AuthStore with additional functions
 interface AuthStoreFun extends AuthStore {
@@ -40,7 +41,7 @@ interface AuthStoreFun extends AuthStore {
   connectSocket: () => void;
   disconnectSocket: () => void;
   addNotification: (
-    notification: Omit<Notification, "id" | "timestamp" | "read">
+    notification: Omit<Notification, "id" | "timestamp" | "read">,
   ) => void;
   markNotificationAsRead: (id: string) => void;
   clearAllNotifications: () => void;
@@ -111,7 +112,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       // Show appropriate welcome message
       if (res.data.isFirstLogin) {
         toast.success(
-          "Welcome to Chatter! 🎉 Check your email for the complete guide."
+          "Welcome to Chatter! 🎉 Check your email for the complete guide.",
         );
       } else {
         toast.success("Welcome back! 👋");
@@ -260,7 +261,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
     } catch (error: any) {
       console.error("Error in updateUserInfo:", error);
       toast.error(
-        error.response?.data?.message || "Failed to update profile information"
+        error.response?.data?.message || "Failed to update profile information",
       );
     } finally {
       set({ isUpdatingProfile: false });
@@ -294,7 +295,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
 
       // Check for newly online users
       const newlyOnlineUsers = userIds.filter(
-        (id) => !previousOnlineUsers.includes(id) && id !== authUser._id
+        (id) => !previousOnlineUsers.includes(id) && id !== authUser._id,
       );
 
       newlyOnlineUsers.forEach((userId) => {
@@ -320,7 +321,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
 
         // Check if there's an open, non-minimized chat window for this sender
         const openChatWindow = chatWindowsStore.openChats.find(
-          (chat) => chat.user._id === messageData.senderId && !chat.minimized
+          (chat) => chat.user._id === messageData.senderId && !chat.minimized,
         );
 
         // Check if the browser tab is active
@@ -336,7 +337,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
         if (!isViewingThisChat && !hasActiveChatWindow) {
           // Get sender's name from users store or use fallback
           let senderUser = chatStore.users.find(
-            (user: any) => user._id === messageData.senderId
+            (user: any) => user._id === messageData.senderId,
           );
           let senderName = senderUser?.name || messageData.senderName;
 
@@ -344,7 +345,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
           if (!senderName && messageData.senderId) {
             try {
               const response = await axiosInstance.get(
-                `/users/${messageData.senderId}`
+                `/users/${messageData.senderId}`,
               );
               senderUser = response.data as User;
               senderName = senderUser?.name;
@@ -390,7 +391,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       // Handle in friend request store via window reference
       if ((window as any).friendRequestStoreHandlers) {
         (window as any).friendRequestStoreHandlers.handleNewFriendRequest(
-          requestData
+          requestData,
         );
       }
     });
@@ -399,7 +400,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       // Handle in friend request store via window reference
       if ((window as any).friendRequestStoreHandlers) {
         (window as any).friendRequestStoreHandlers.handleRequestAccepted(
-          requestData
+          requestData,
         );
       }
     });
@@ -426,7 +427,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
   },
 
   addNotification: (
-    notificationData: Omit<Notification, "id" | "timestamp" | "read">
+    notificationData: Omit<Notification, "id" | "timestamp" | "read">,
   ) => {
     const notification: Notification = {
       ...notificationData,
@@ -454,7 +455,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
   markNotificationAsRead: (id: string) => {
     set((state) => ({
       notifications: state.notifications.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
+        notification.id === id ? { ...notification, read: true } : notification,
       ),
     }));
   },

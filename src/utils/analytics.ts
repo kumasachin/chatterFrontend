@@ -1,9 +1,12 @@
 // Analytics Service for Frontend
 // Comprehensive tracking of user interactions, performance metrics, and system health
 // This service helps us understand how users interact with Chatter and optimize accordingly
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 
 import React from "react";
+
 import { axiosInstance } from "../lib/axios";
+
 import { enhancedPerf } from "./enhancedPerformance";
 
 // Type definitions for better code clarity and maintainability
@@ -131,7 +134,7 @@ class AnalyticsService {
   trackPerformance(
     name: string,
     duration: number,
-    category: string = "general"
+    category: string = "general",
   ): void {
     if (!this.isEnabled) return;
 
@@ -165,24 +168,24 @@ class AnalyticsService {
   private trackPageLoad(): void {
     window.addEventListener("load", () => {
       const navigation = performance.getEntriesByType(
-        "navigation"
+        "navigation",
       )[0] as PerformanceNavigationTiming;
 
       if (navigation) {
         this.trackPerformance(
           "page-load",
           navigation.loadEventEnd - navigation.fetchStart,
-          "navigation"
+          "navigation",
         );
         this.trackPerformance(
           "dom-content-loaded",
           navigation.domContentLoadedEventEnd - navigation.fetchStart,
-          "navigation"
+          "navigation",
         );
         this.trackPerformance(
           "first-paint",
           navigation.loadEventEnd - navigation.fetchStart,
-          "navigation"
+          "navigation",
         );
       }
     });
@@ -204,7 +207,7 @@ class AnalyticsService {
   trackInteraction(
     element: string,
     action: string,
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): void {
     this.trackActivity(`interaction-${action}`, {
       element,
@@ -233,7 +236,7 @@ class AnalyticsService {
   // Track authentication events
   trackAuth(
     event: "login" | "logout" | "signup" | "guest-login",
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): void {
     this.trackActivity(`auth-${event}`, metadata);
   }
@@ -241,7 +244,7 @@ class AnalyticsService {
   // Track messaging events
   trackMessage(
     event: "send" | "receive" | "read",
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): void {
     this.trackActivity(`message-${event}`, metadata);
   }
@@ -249,7 +252,7 @@ class AnalyticsService {
   // Track AI interactions
   trackAIInteraction(
     event: "query" | "response" | "error",
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): void {
     this.trackActivity(`ai-${event}`, metadata);
   }
@@ -297,8 +300,8 @@ class AnalyticsService {
               .post("/api/analytics/activity", activity)
               .catch((err) => {
                 console.error("Failed to send activity data:", err);
-              })
-          )
+              }),
+          ),
         );
       }
 
@@ -310,14 +313,14 @@ class AnalyticsService {
               .post("/api/analytics/performance", metric)
               .catch((err) => {
                 console.error("Failed to send performance data:", err);
-              })
-          )
+              }),
+          ),
         );
       }
 
       if (process.env.NODE_ENV === "development") {
         console.log(
-          `📊 Flushed ${activities.length} activities and ${performances.length} performance metrics`
+          `📊 Flushed ${activities.length} activities and ${performances.length} performance metrics`,
         );
       }
     } catch (error) {
@@ -328,14 +331,14 @@ class AnalyticsService {
         this.activityQueue.unshift(
           ...activities.slice(
             0,
-            this.MAX_QUEUE_SIZE - this.activityQueue.length
-          )
+            this.MAX_QUEUE_SIZE - this.activityQueue.length,
+          ),
         );
         this.performanceQueue.unshift(
           ...performances.slice(
             0,
-            this.MAX_QUEUE_SIZE - this.performanceQueue.length
-          )
+            this.MAX_QUEUE_SIZE - this.performanceQueue.length,
+          ),
         );
       }
     }
@@ -414,7 +417,7 @@ export const useAnalytics = () => {
 // Higher-order component for automatic page tracking
 export const withAnalytics = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  pageName: string
+  pageName: string,
 ) => {
   return (props: P) => {
     React.useEffect(() => {
@@ -439,12 +442,12 @@ export const withAnalytics = <P extends object>(
 // Performance tracking decorators
 export const trackAsyncPerformance = (
   name: string,
-  category: string = "api"
+  category: string = "api",
 ) => {
   return (
     _target: any,
     _propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ) => {
     const originalMethod = descriptor.value;
 

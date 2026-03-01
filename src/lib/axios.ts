@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
 import { BasePath } from "../config";

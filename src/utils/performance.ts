@@ -1,4 +1,5 @@
 // Performance monitoring utility for debugging slow login
+/* eslint-disable no-console, @typescript-eslint/no-explicit-any */
 
 interface PerformanceMarker {
   name: string;
@@ -57,7 +58,7 @@ class PerformanceMonitor {
 
   getReport(): PerformanceMarker[] {
     return Array.from(this.markers.values()).filter(
-      (m) => m.duration !== undefined
+      (m) => m.duration !== undefined,
     );
   }
 
@@ -82,7 +83,7 @@ class PerformanceMonitor {
               ? "🟡"
               : "🟢";
         console.log(
-          `${color} ${marker.name}: ${marker.duration?.toFixed(2)}ms`
+          `${color} ${marker.name}: ${marker.duration?.toFixed(2)}ms`,
         );
       });
     console.groupEnd();
@@ -91,13 +92,13 @@ class PerformanceMonitor {
 
 // Create global instance
 export const perf = new PerformanceMonitor(
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "development",
 );
 
 // Helper function for timing async operations
 export const timeAsync = async <T>(
   name: string,
-  fn: () => Promise<T>
+  fn: () => Promise<T>,
 ): Promise<T> => {
   return perf.measure(name, fn);
 };

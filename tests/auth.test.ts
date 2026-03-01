@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+
 import { useAuthStore } from "../src/store/auth.store";
 
 // Mock axios instead of fetch since the store uses axios
