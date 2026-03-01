@@ -63,11 +63,15 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       const res: any = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
       get().connectSocket();
-    } catch (error: unknown) {
-      console.error("Error in checkAuth:", error);
+    } catch (error: any) {
       set({ authUser: null });
       get().disconnectSocket();
-      window.location.href = "/";
+
+      // Only redirect to login on explicit 401 — not on network errors / 5xx
+      // Redirecting on every error causes infinite loops when the API is down
+      if (error?.response?.status === 401) {
+        window.location.href = "/";
+      }
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -167,41 +171,26 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
   },
   logout: async () => {
     try {
-      console.log("Starting logout process...");
-
-      // First disconnect socket to appear offline to other users
+      // Disconnect socket first so we appear offline to other users immediately
       get().disconnectSocket();
 
-      // Call backend logout to clear server-side session/cookie FIRST
       await axiosInstance.post("/auth/logout");
 
-      // Clear all user session data thoroughly
       clearUserSession();
       TokenStorage.removeToken();
-
-      // Clear auth store state
       set({ authUser: null, onlineUsers: [], notifications: [] });
-
-      // Set logout flag to prevent auto-login
       setLogoutFlag();
 
-      console.log("Logout successful");
       toast.success("Logged out successfully");
     } catch (error: any) {
-      console.error("Logout error:", error);
-
-      // Even if backend fails, clear everything aggressively
+      // Even if the backend call fails, clean up locally
       clearUserSession();
       TokenStorage.removeToken();
       get().disconnectSocket();
-
-      // Clear auth store state
       set({ authUser: null, onlineUsers: [], notifications: [] });
-
-      // Set logout flag
       setLogoutFlag();
 
-      toast.error("Logout completed (with errors)");
+      toast.error("Logged out (server sync failed)");
     }
   },
 
