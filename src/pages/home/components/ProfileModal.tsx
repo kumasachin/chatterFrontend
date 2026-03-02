@@ -54,7 +54,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
       if (formData.fullName.trim())
         updateData.fullName = formData.fullName.trim();
       if (formData.email.trim()) updateData.email = formData.email.trim();
-      if (formData.gender) updateData.gender = formData.gender;
+      if (formData.gender)
+        updateData.gender = formData.gender as "male" | "female" | "other";
       if (formData.dateOfBirth) updateData.dateOfBirth = formData.dateOfBirth;
 
       await updateUserInfo(updateData);
