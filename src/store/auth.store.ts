@@ -45,6 +45,7 @@ interface AuthStoreFun extends AuthStore {
   ) => void;
   markNotificationAsRead: (id: string) => void;
   clearAllNotifications: () => void;
+  clearShouldOpenChatterBot: () => void;
 }
 
 // main auth store using zustand
@@ -57,6 +58,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
   onlineUsers: [],
   socket: null,
   notifications: [], // array to hold user notifications
+  shouldOpenChatterBot: false,
 
   checkAuth: async () => {
     try {
@@ -118,6 +120,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
         toast.success(
           "Welcome to Chatter! 🎉 Check your email for the complete guide.",
         );
+        set({ shouldOpenChatterBot: true });
       } else {
         toast.success("Welcome back! 👋");
       }
@@ -156,6 +159,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       });
 
       toast.success("Logged in as guest successfully");
+      set({ shouldOpenChatterBot: true });
 
       perf.end("guest-login-flow");
       perf.logReport();
@@ -451,5 +455,9 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
 
   clearAllNotifications: () => {
     set({ notifications: [] });
+  },
+
+  clearShouldOpenChatterBot: () => {
+    set({ shouldOpenChatterBot: false });
   },
 }));

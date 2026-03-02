@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import EmailVerificationReminder from "../../components/auth/EmailVerificationReminder.tsx";
 import { useAuthStore } from "../../store/auth.store.ts";
 import { useChatWindowsStore } from "../../store/chatWindows.store";
+import useChatStore from "../../store/messages.store.ts";
 import usePageStore from "../../store/page.store.ts";
 import useUserStore from "../../store/user.store.ts";
 import type { User } from "../../types/auth.ts";
@@ -22,11 +23,19 @@ const Home = () => {
   const currentUser = useUserStore((state) => state.currentUser);
   const authUser = useAuthStore((state) => state.authUser);
   const isCheckingAuth = useAuthStore((state) => state.isCheckingAuth);
+  const shouldOpenChatterBot = useAuthStore(
+    (state) => state.shouldOpenChatterBot,
+  );
+  const clearShouldOpenChatterBot = useAuthStore(
+    (state) => state.clearShouldOpenChatterBot,
+  );
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
   const setCurrentPage = usePageStore((state) => state.setCurrentPage);
   const resetCurrentUser = useUserStore((state) => state.resetCurrentUser);
   const { logout, checkAuth } = useAuthStore();
   const openChat = useChatWindowsStore((state) => state.openChat);
+  const users = useChatStore((state) => state.users);
+  const getUsers = useChatStore((state) => state.getUsers);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,6 +58,27 @@ const Home = () => {
       setShowEmailReminder(true);
     }
   }, [currentUser, authUser]);
+
+  // Auto-open ChatterBot chat on first login / guest login
+  useEffect(() => {
+    if (!shouldOpenChatterBot) return;
+
+    const openChatterBot = async () => {
+      let userList = users;
+      // If user list is empty, fetch it first
+      if (userList.length === 0) {
+        await getUsers();
+        userList = useChatStore.getState().users;
+      }
+      const bot = userList.find((u) => u.isAIBot);
+      if (bot) {
+        openChat(bot);
+      }
+      clearShouldOpenChatterBot();
+    };
+
+    openChatterBot();
+  }, [shouldOpenChatterBot]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const displayUser = currentUser || authUser;
 

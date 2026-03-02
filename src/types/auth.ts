@@ -30,6 +30,7 @@ export interface AuthStore {
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
+  shouldOpenChatterBot: boolean;
 }
 
 export interface LoginData {
