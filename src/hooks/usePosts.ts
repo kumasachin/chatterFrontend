@@ -5,6 +5,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+
 import * as postService from "../services/post.service";
 import { usePostStore } from "../store/post.store";
 import type { CreatePostPayload } from "../types/post";
@@ -17,9 +18,7 @@ export const useFeed = () =>
       postService.getFeed(pageParam as number, 10),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
-      lastPage.pagination.hasMore
-        ? lastPage.pagination.page + 1
-        : undefined,
+      lastPage.pagination.hasMore ? lastPage.pagination.page + 1 : undefined,
     staleTime: 30_000, // 30 s — matches backend cache TTL
   });
 
@@ -35,8 +34,7 @@ export const usePost = (id: string) =>
 export const useCreatePost = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (payload: CreatePostPayload) =>
-      postService.createPost(payload),
+    mutationFn: (payload: CreatePostPayload) => postService.createPost(payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["feed"] });
       toast.success("Post published!");
@@ -59,7 +57,11 @@ export const useDeletePost = () => {
 };
 
 // ── Like toggle (optimistic) ──────────────────────────────────────────────────
-export const useToggleLike = (postId: string, currentLiked: boolean, currentCount: number) => {
+export const useToggleLike = (
+  postId: string,
+  currentLiked: boolean,
+  currentCount: number,
+) => {
   const qc = useQueryClient();
   const { setOptimisticLike, clearOptimisticLike } = usePostStore();
 
@@ -70,7 +72,7 @@ export const useToggleLike = (postId: string, currentLiked: boolean, currentCoun
       setOptimisticLike(
         postId,
         !currentLiked,
-        currentLiked ? currentCount - 1 : currentCount + 1
+        currentLiked ? currentCount - 1 : currentCount + 1,
       );
     },
     onSuccess: ({ liked, likeCount }) => {

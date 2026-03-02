@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
 import { Loader2, RefreshCw } from "lucide-react";
-import { useFeed } from "../../hooks/usePosts";
-import { usePostStore } from "../../store/post.store";
-import { useAuthStore } from "../../store/auth.store";
-import PostCard from "../../components/post/PostCard";
+import { useEffect, useRef } from "react";
+
 import CreatePost from "../../components/post/CreatePost";
+import PostCard from "../../components/post/PostCard";
+import { useFeed } from "../../hooks/usePosts";
+import { useAuthStore } from "../../store/auth.store";
+import { usePostStore } from "../../store/post.store";
 
 export default function FeedPage() {
   const { authUser } = useAuthStore();
@@ -31,7 +32,7 @@ export default function FeedPage() {
           fetchNextPage();
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -42,7 +43,6 @@ export default function FeedPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 px-4">
       <div className="max-w-xl mx-auto space-y-4">
-
         {/* Create post — only shown when logged in */}
         {authUser && <CreatePost />}
 
@@ -56,7 +56,8 @@ export default function FeedPage() {
             className="w-full flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-xl transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
-            {newPosts.length} new {newPosts.length === 1 ? "post" : "posts"} — tap to refresh
+            {newPosts.length} new {newPosts.length === 1 ? "post" : "posts"} —
+            tap to refresh
           </button>
         )}
 

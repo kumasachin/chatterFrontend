@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Loader2, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { useAuthStore } from "../../store/auth.store";
+import { Loader2, Send } from "lucide-react";
+import { useState } from "react";
+
 import { useComments, useAddComment } from "../../hooks/usePosts";
+import { useAuthStore } from "../../store/auth.store";
 
 interface Props {
   postId: string;
@@ -42,10 +43,16 @@ export default function CommentSection({ postId }: Props) {
             <li key={c._id} className="flex gap-2.5">
               <div className="w-7 h-7 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
                 {c.author.profile ? (
-                  <img src={c.author.profile} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={c.author.profile}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-xs text-gray-500 dark:text-gray-300 font-medium">
-                    {(c.author.fullName || c.author.name).charAt(0).toUpperCase()}
+                    {(c.author.fullName || c.author.name)
+                      .charAt(0)
+                      .toUpperCase()}
                   </div>
                 )}
               </div>
@@ -55,7 +62,9 @@ export default function CommentSection({ postId }: Props) {
                     {c.author.fullName || c.author.name}
                   </span>
                   <span className="text-[10px] text-gray-400">
-                    {formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })}
+                    {formatDistanceToNow(new Date(c.createdAt), {
+                      addSuffix: true,
+                    })}
                   </span>
                 </div>
                 <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5 leading-relaxed">
@@ -71,7 +80,11 @@ export default function CommentSection({ postId }: Props) {
       <form onSubmit={handleSubmit} className="flex items-center gap-2 mt-3">
         <div className="w-7 h-7 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
           {avatar ? (
-            <img src={avatar} alt={displayName} className="w-full h-full object-cover" />
+            <img
+              src={avatar}
+              alt={displayName}
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-xs text-gray-500 dark:text-gray-300 font-medium">
               {displayName.charAt(0).toUpperCase()}

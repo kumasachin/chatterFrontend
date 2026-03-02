@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../../../components/ui/Button";
 import { Modal } from "../../../components/ui/Modal";
 import { useAuthStore } from "../../../store/auth.store";
-import type { User } from "../../../types/auth";
+import type { User, UpdateUserInfoData } from "../../../types/auth";
 
 interface ProfileModalProps {
   user: User;
@@ -48,7 +48,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 
   const handleSave = async () => {
     try {
-      const updateData: any = {};
+      const updateData: UpdateUserInfoData = {};
 
       // Only include fields that have values
       if (formData.fullName.trim())

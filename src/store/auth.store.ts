@@ -182,7 +182,7 @@ export const useAuthStore = create<AuthStoreFun>((set, get) => ({
       setLogoutFlag();
 
       toast.success("Logged out successfully");
-    } catch (error: any) {
+    } catch {
       // Even if the backend call fails, clean up locally
       clearUserSession();
       TokenStorage.removeToken();

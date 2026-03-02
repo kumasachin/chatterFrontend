@@ -37,8 +37,9 @@ const LazyLoadUserList = ({ onUserClick }: LazyLoadUserListProps) => {
 
   // Search state
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchDebounceTimer, setSearchDebounceTimer] =
-    useState<ReturnType<typeof setTimeout> | null>(null);
+  const [searchDebounceTimer, setSearchDebounceTimer] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
 
   // handle search with debouncing to avoid too many API calls
   const handleSearchChange = useCallback(
@@ -87,18 +88,16 @@ const LazyLoadUserList = ({ onUserClick }: LazyLoadUserListProps) => {
       users?.filter((user) => user._id !== currentUser?._id) || [];
 
     // Create sets for quick lookup
-    const friendIds = new Set(friends.map((friend: any) => friend._id));
+    const friendIds = new Set(friends.map((friend) => friend._id));
     const pendingReceivedIds = new Set(
-      receivedRequests.map((req: any) => req.sender._id),
+      receivedRequests.map((req) => req.sender._id),
     );
-    const pendingSentIds = new Set(
-      sentRequests.map((req: any) => req.receiver._id),
-    );
+    const pendingSentIds = new Set(sentRequests.map((req) => req.receiver._id));
 
     // Sort users by priority: Friends > Pending Requests > Others
     const sortedUsers = allUsers.sort((a, b) => {
       // Priority scoring: 3 = friends, 2 = pending requests, 1 = others
-      const getPriority = (user: any) => {
+      const getPriority = (user: User) => {
         if (friendIds.has(user._id)) return 3;
         if (pendingReceivedIds.has(user._id) || pendingSentIds.has(user._id))
           return 2;

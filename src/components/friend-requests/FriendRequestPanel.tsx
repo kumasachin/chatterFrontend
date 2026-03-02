@@ -166,7 +166,7 @@ const FriendRequestPanel: React.FC = () => {
           <p>No friends yet</p>
         </div>
       ) : (
-        friends.map((friend: any) => (
+        friends.map((friend) => (
           <div
             key={friend._id}
             className="bg-white rounded-lg p-4 shadow-sm border"

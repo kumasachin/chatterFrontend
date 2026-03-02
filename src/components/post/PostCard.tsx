@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Heart, MessageCircle, Trash2, Globe, Users } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import type { Post } from "../../types/post";
+import { Heart, MessageCircle, Trash2, Globe, Users } from "lucide-react";
+import { useState } from "react";
+
+import { useToggleLike, useDeletePost } from "../../hooks/usePosts";
 import { useAuthStore } from "../../store/auth.store";
 import { usePostStore } from "../../store/post.store";
-import { useToggleLike, useDeletePost } from "../../hooks/usePosts";
+import type { Post } from "../../types/post";
+
 import CommentSection from "./CommentSection";
 
 interface Props {
@@ -26,7 +28,7 @@ export default function PostCard({ post }: Props) {
   const { mutate: toggleLike, isPending: likePending } = useToggleLike(
     post._id,
     liked,
-    likeCount
+    likeCount,
   );
   const { mutate: deletePost, isPending: deletePending } = useDeletePost();
 
@@ -41,7 +43,11 @@ export default function PostCard({ post }: Props) {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
             {avatar ? (
-              <img src={avatar} alt={displayName} className="w-full h-full object-cover" />
+              <img
+                src={avatar}
+                alt={displayName}
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-300 font-medium text-sm">
                 {displayName.charAt(0).toUpperCase()}
@@ -53,7 +59,11 @@ export default function PostCard({ post }: Props) {
               {displayName}
             </p>
             <div className="flex items-center gap-1 text-xs text-gray-400">
-              <span>{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
+              <span>
+                {formatDistanceToNow(new Date(post.createdAt), {
+                  addSuffix: true,
+                })}
+              </span>
               <span>·</span>
               {post.visibility === "public" ? (
                 <Globe className="w-3 h-3" />

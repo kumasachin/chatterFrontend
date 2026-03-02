@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback } from "react";
 import { Image, X, Globe, Users, Send, Loader2 } from "lucide-react";
-import { useAuthStore } from "../../store/auth.store";
+import { useState, useRef, useCallback } from "react";
+
 import { useCreatePost } from "../../hooks/usePosts";
+import { useAuthStore } from "../../store/auth.store";
 import type { CreatePostPayload } from "../../types/post";
 
 const MAX_IMAGES = 4;
@@ -16,24 +17,28 @@ export default function CreatePost() {
 
   const { mutate: createPost, isPending } = useCreatePost();
 
-  const handleFiles = useCallback((files: FileList | null) => {
-    if (!files) return;
-    const remaining = MAX_IMAGES - previews.length;
-    Array.from(files)
-      .slice(0, remaining)
-      .forEach((file) => {
-        if (file.size > MAX_MB * 1024 * 1024) return;
-        const reader = new FileReader();
-        reader.onloadend = () =>
-          setPreviews((p) => [...p, reader.result as string]);
-        reader.readAsDataURL(file);
-      });
-  }, [previews]);
+  const handleFiles = useCallback(
+    (files: FileList | null) => {
+      if (!files) return;
+      const remaining = MAX_IMAGES - previews.length;
+      Array.from(files)
+        .slice(0, remaining)
+        .forEach((file) => {
+          if (file.size > MAX_MB * 1024 * 1024) return;
+          const reader = new FileReader();
+          reader.onloadend = () =>
+            setPreviews((p) => [...p, reader.result as string]);
+          reader.readAsDataURL(file);
+        });
+    },
+    [previews],
+  );
 
   const removeImage = (idx: number) =>
     setPreviews((p) => p.filter((_, i) => i !== idx));
 
-  const canSubmit = (content.trim().length > 0 || previews.length > 0) && !isPending;
+  const canSubmit =
+    (content.trim().length > 0 || previews.length > 0) && !isPending;
 
   const handleSubmit = () => {
     if (!canSubmit) return;
@@ -59,7 +64,11 @@ export default function CreatePost() {
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
           {avatar ? (
-            <img src={avatar} alt={displayName} className="w-full h-full object-cover" />
+            <img
+              src={avatar}
+              alt={displayName}
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-300 font-medium text-sm">
               {displayName.charAt(0).toUpperCase()}
@@ -81,7 +90,11 @@ export default function CreatePost() {
         <div className="flex gap-2 mt-3 flex-wrap">
           {previews.map((src, i) => (
             <div key={i} className="relative group w-20 h-20">
-              <img src={src} alt="" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={src}
+                alt=""
+                className="w-full h-full object-cover rounded-lg"
+              />
               <button
                 onClick={() => removeImage(i)}
                 className="absolute -top-1 -right-1 bg-gray-800 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -118,13 +131,19 @@ export default function CreatePost() {
           {/* Visibility toggle */}
           <button
             type="button"
-            onClick={() => setVisibility((v) => (v === "public" ? "friends" : "public"))}
+            onClick={() =>
+              setVisibility((v) => (v === "public" ? "friends" : "public"))
+            }
             className="flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors"
           >
             {visibility === "public" ? (
-              <><Globe className="w-4 h-4" /> Public</>
+              <>
+                <Globe className="w-4 h-4" /> Public
+              </>
             ) : (
-              <><Users className="w-4 h-4" /> Friends</>
+              <>
+                <Users className="w-4 h-4" /> Friends
+              </>
             )}
           </button>
         </div>

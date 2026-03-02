@@ -4,6 +4,7 @@
  * holds client-side transient state only.
  */
 import { create } from "zustand";
+
 import type { Post } from "../types/post";
 
 interface PostStore {
@@ -12,7 +13,7 @@ interface PostStore {
   setOptimisticLike: (
     postId: string,
     liked: boolean,
-    likeCount: number
+    likeCount: number,
   ) => void;
   clearOptimisticLike: (postId: string) => void;
 

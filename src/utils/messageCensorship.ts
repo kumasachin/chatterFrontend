@@ -59,7 +59,7 @@ const spamPatterns = [
 
 export class MessageCensor {
   private config: CensorshipConfig;
-  private filter: any;
+  private filter: Filter;
 
   constructor(config: Partial<CensorshipConfig> = {}) {
     // Try to load config from localStorage
@@ -306,7 +306,7 @@ export const censorText = (text: string) => messageCensor.censorMessage(text);
 
 // Enhanced name validation function using third-party library
 export const validateName = (
-  name: string
+  name: string,
 ): {
   isValid: boolean;
   censoredName?: string;
