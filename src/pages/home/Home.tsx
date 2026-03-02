@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import EmailVerificationReminder from "../../components/auth/EmailVerificationReminder.tsx";
+import AppTour from "../../components/tour/AppTour.tsx";
 import { useAuthStore } from "../../store/auth.store.ts";
 import { useChatWindowsStore } from "../../store/chatWindows.store";
 import useChatStore from "../../store/messages.store.ts";
 import usePageStore from "../../store/page.store.ts";
+import useTourStore from "../../store/tour.store.ts";
 import useUserStore from "../../store/user.store.ts";
 import type { User } from "../../types/auth.ts";
 import FloatingChatManager from "../chat/components/FloatingChatManager.tsx";
@@ -75,6 +77,8 @@ const Home = () => {
         openChat(bot);
       }
       clearShouldOpenChatterBot();
+      // Start the guided tour after a brief delay so the UI settles
+      setTimeout(() => useTourStore.getState().startTour(), 800);
     };
 
     openChatterBot();
@@ -147,6 +151,7 @@ const Home = () => {
       </main>
 
       <FloatingChatManager />
+      <AppTour />
     </div>
   );
 };
