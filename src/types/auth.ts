@@ -9,6 +9,7 @@ export interface User {
   profile?: string;
   friends?: string[];
   isGuest?: boolean;
+  isAIBot?: boolean;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;

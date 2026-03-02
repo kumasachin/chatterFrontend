@@ -94,10 +94,11 @@ const LazyLoadUserList = ({ onUserClick }: LazyLoadUserListProps) => {
     );
     const pendingSentIds = new Set(sentRequests.map((req) => req.receiver._id));
 
-    // Sort users by priority: Friends > Pending Requests > Others
+    // Sort users by priority: AI bots > Friends > Pending Requests > Others
     const sortedUsers = allUsers.sort((a, b) => {
-      // Priority scoring: 3 = friends, 2 = pending requests, 1 = others
+      // Priority scoring: 4 = AI bot, 3 = friends, 2 = pending requests, 1 = others
       const getPriority = (user: User) => {
+        if (user.isAIBot) return 4;
         if (friendIds.has(user._id)) return 3;
         if (pendingReceivedIds.has(user._id) || pendingSentIds.has(user._id))
           return 2;
