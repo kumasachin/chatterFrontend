@@ -9,6 +9,7 @@ const EmailVerification = lazy(() => import("../pages/auth/EmailVerification"));
 const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("../pages/auth/ResetPassword"));
 const HelpPage = lazy(() => import("../pages/HelpPage"));
+const FeedPage = lazy(() => import("../pages/feed/FeedPage"));
 
 const AppRoutes = () => (
   <Routes>
@@ -81,6 +82,14 @@ const AppRoutes = () => (
       element={
         <MainLayout>
           <Home />
+        </MainLayout>
+      }
+    />
+    <Route
+      path="/feed"
+      element={
+        <MainLayout>
+          <FeedPage />
         </MainLayout>
       }
     />
